@@ -110,22 +110,18 @@ axialCol = lens (\(AxialCoordinate (q,_)) -> q)
 
 _CubeAxialIso :: (Num t) => Iso' (CubeCoordinate t) (AxialCoordinate t)
 _CubeAxialIso =
-  let a (CubeCoordinate (x, _, z)) = AxialCoordinate (x, z)
-      b (AxialCoordinate (q,r))    = CubeCoordinate  (q, -q-r  ,r)
+  let a c = AxialCoordinate (c ^. cubeX, c ^. cubeZ)
+      b (AxialCoordinate (q,r))    = CubeCoordinate  (q, -q-r, r)
   in iso a b
 
 
 _AxialOffsetIso :: (OffsetCoordinate t a, Integral a, Bits a) =>
                   Iso' (AxialCoordinate a) (t a)
-_AxialOffsetIso = iso a b
-  where a = view ((re _CubeAxialIso) . _CubeOffsetIso)
-        b = view ((re _CubeOffsetIso) . _CubeAxialIso)
+_AxialOffsetIso = from _CubeAxialIso . _CubeOffsetIso
 
 _CoordinateIso :: (HexCoordinate s a, HexCoordinate t a, Integral a, Bits a) =>
                  Iso' (s a) (t a)
-_CoordinateIso = iso a b
-  where a = view (re _CoordinateCubeIso . _CoordinateCubeIso)
-        b = view (re _CoordinateCubeIso . _CoordinateCubeIso)
+_CoordinateIso = from _CoordinateCubeIso . _CoordinateCubeIso
 
 
 
