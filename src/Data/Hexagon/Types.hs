@@ -34,14 +34,14 @@ type OffsetBase t = (t,t)
 
 class (Functor t) => HexCoordinate (t :: * -> *) a where
   type CoordinateBase t a :: *
-  _Coordinate :: Iso' (CoordinateBase t a) (t a)
+  _Coordinate :: Iso' (t a) (CoordinateBase t a)
   _CoordinateCubeIso :: (Integral a, Bits a) => Iso' (CubeCoordinate a) (t a)
 
 
 class (Functor t) => OffsetCoordinate (t :: * -> *) a where
   offsetCol :: Lens' (t a) a
   offsetRow :: Lens' (t a) a
-  _OffsetCoordinate :: Iso' (OffsetBase a) (t a)
+  _OffsetCoordinate :: Iso' (t a) (OffsetBase a)
   _CubeOffsetIso :: (Integral a, Bits a) => Iso' (CubeCoordinate a) (t a)
 
 newtype CubeCoordinate t =
@@ -68,44 +68,44 @@ newtype OffsetOddR t =
   OffsetOddR (t, t)
   deriving (Show, Read, Eq, Typeable, GHC.Generic)
 
-_CubeCoordinate :: Iso' (CoordinateBase CubeCoordinate t) (CubeCoordinate t)
-_CubeCoordinate = iso CubeCoordinate (\(CubeCoordinate a) -> a)
+_CubeCoordinate :: Iso' (CubeCoordinate t) (CoordinateBase CubeCoordinate t)
+_CubeCoordinate = iso (\(CubeCoordinate a) -> a) CubeCoordinate
 
-_AxialCoordinate :: Iso' (CoordinateBase AxialCoordinate t) (AxialCoordinate t)
-_AxialCoordinate = iso AxialCoordinate (\(AxialCoordinate a) -> a)
+_AxialCoordinate :: Iso' (AxialCoordinate t) (CoordinateBase AxialCoordinate t)
+_AxialCoordinate = iso (\(AxialCoordinate a) -> a) AxialCoordinate
 
-_OffsetEvenQ :: Iso' (CoordinateBase OffsetEvenQ t) (OffsetEvenQ t)
-_OffsetEvenQ = iso OffsetEvenQ (\(OffsetEvenQ a) -> a)
+_OffsetEvenQ :: Iso' (OffsetEvenQ t) (CoordinateBase OffsetEvenQ t)
+_OffsetEvenQ = iso (\(OffsetEvenQ a) -> a) OffsetEvenQ
 
-_OffsetOddQ :: Iso' (CoordinateBase OffsetOddQ t) (OffsetOddQ t)
-_OffsetOddQ = iso OffsetOddQ (\(OffsetOddQ a) -> a)
+_OffsetOddQ :: Iso' (OffsetOddQ t) (CoordinateBase OffsetOddQ t)
+_OffsetOddQ = iso (\(OffsetOddQ a) -> a) OffsetOddQ
 
-_OffsetEvenR :: Iso' (CoordinateBase OffsetEvenR t) (OffsetEvenR t)
-_OffsetEvenR = iso OffsetEvenR (\(OffsetEvenR a) -> a)
+_OffsetEvenR :: Iso' (OffsetEvenR t) (CoordinateBase OffsetEvenR t)
+_OffsetEvenR = iso (\(OffsetEvenR a) -> a) OffsetEvenR
 
-_OffsetOddR :: Iso' (CoordinateBase OffsetOddR t) (OffsetOddR t)
-_OffsetOddR = iso OffsetOddR (\(OffsetOddR a) -> a)
+_OffsetOddR :: Iso' (OffsetOddR t) (CoordinateBase OffsetOddR t)
+_OffsetOddR = iso (\(OffsetOddR a) -> a) OffsetOddR
 
 cubeX :: Lens' (CubeCoordinate t) t
 cubeX = lens (\(CubeCoordinate (x,_,_)) -> x)
-        (\(CubeCoordinate (_,y,z)) x -> CubeCoordinate (x,y,z))
+        (\(CubeCoordinate (_,y,z)) x -> _CubeCoordinate # (x,y,z))
 
 cubeY :: Lens' (CubeCoordinate t) t
 cubeY = lens (\(CubeCoordinate (_,y,_)) -> y)
-        (\(CubeCoordinate (x,_,z)) y -> CubeCoordinate (x,y,z))
+        (\(CubeCoordinate (x,_,z)) y -> _CubeCoordinate # (x,y,z))
 
 cubeZ :: Lens' (CubeCoordinate t) t
 cubeZ = lens (\(CubeCoordinate (_,_,z)) -> z)
-        (\(CubeCoordinate (x,y,_)) z -> CubeCoordinate (x,y,z))
+        (\(CubeCoordinate (x,y,_)) z -> _CubeCoordinate # (x,y,z))
 
 
 axialRow :: Lens' (AxialCoordinate t) t
 axialRow = lens (\(AxialCoordinate (_,r)) -> r)
-        (\(AxialCoordinate (q,_)) r -> AxialCoordinate (q,r))
+        (\(AxialCoordinate (q,_)) r -> _AxialCoordinate # (q,r))
 
 axialCol :: Lens' (AxialCoordinate t) t
 axialCol = lens (\(AxialCoordinate (q,_)) -> q)
-        (\(AxialCoordinate (_,r)) q -> AxialCoordinate (q,r))
+        (\(AxialCoordinate (_,r)) q -> _AxialCoordinate # (q,r))
 
 
 _CubeAxialIso :: (Num t) => Iso' (CubeCoordinate t) (AxialCoordinate t)
@@ -127,9 +127,9 @@ _CoordinateIso = from _CoordinateCubeIso . _CoordinateCubeIso
 
 instance OffsetCoordinate OffsetEvenQ t where
   offsetCol = lens (\(OffsetEvenQ (c,_)) -> c)
-              (\(OffsetEvenQ (_,r)) b -> OffsetEvenQ (b, r))
+              (\(OffsetEvenQ (_,r)) b -> (_OffsetEvenQ # (b, r)))
   offsetRow = lens (\(OffsetEvenQ (_,r)) -> r)
-              (\(OffsetEvenQ (c,_)) b -> OffsetEvenQ (c, b))
+              (\(OffsetEvenQ (c,_)) b -> _OffsetEvenQ # (c, b))
   _OffsetCoordinate = _OffsetEvenQ
   _CubeOffsetIso =
     let a (CubeCoordinate (x,_,z)) =
@@ -144,9 +144,9 @@ instance OffsetCoordinate OffsetEvenQ t where
 
 instance OffsetCoordinate OffsetOddQ t where
   offsetCol = lens (\(OffsetOddQ (c,_)) -> c)
-              (\(OffsetOddQ (_,r)) b -> OffsetOddQ (b, r))
+              (\(OffsetOddQ (_,r)) b -> _OffsetOddQ # (b, r))
   offsetRow = lens (\(OffsetOddQ (_,r)) -> r)
-              (\(OffsetOddQ (c,_)) b -> OffsetOddQ (c, b))
+              (\(OffsetOddQ (c,_)) b -> _OffsetOddQ # (c, b))
   _OffsetCoordinate = _OffsetOddQ
   _CubeOffsetIso =
       let a (CubeCoordinate (x,_,z)) =
@@ -160,9 +160,9 @@ instance OffsetCoordinate OffsetOddQ t where
 
 instance OffsetCoordinate OffsetEvenR t where
   offsetCol = lens (\(OffsetEvenR (c,_)) -> c)
-              (\(OffsetEvenR (_,r)) b -> OffsetEvenR (b, r))
+              (\(OffsetEvenR (_,r)) b -> _OffsetEvenR # (b, r))
   offsetRow = lens (\(OffsetEvenR (_,r)) -> r)
-              (\(OffsetEvenR (c,_)) b -> OffsetEvenR (c, b))
+              (\(OffsetEvenR (c,_)) b -> _OffsetEvenR # (c, b))
   _OffsetCoordinate = _OffsetEvenR
   _CubeOffsetIso =
     let a (CubeCoordinate (x,_,z)) =
@@ -177,9 +177,9 @@ instance OffsetCoordinate OffsetEvenR t where
 
 instance OffsetCoordinate OffsetOddR t where
   offsetCol = lens (\(OffsetOddR (c,_)) -> c)
-              (\(OffsetOddR (_,r)) b -> OffsetOddR (b, r))
+              (\(OffsetOddR (_,r)) b -> _OffsetOddR # (b, r))
   offsetRow = lens (\(OffsetOddR (_,r)) -> r)
-              (\(OffsetOddR (c,_)) b -> OffsetOddR (c, b))
+              (\(OffsetOddR (c,_)) b -> _OffsetOddR # (c, b))
   _OffsetCoordinate = _OffsetOddR
   _CubeOffsetIso =
     let a (CubeCoordinate (x,_,z)) =
