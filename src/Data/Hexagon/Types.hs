@@ -70,8 +70,12 @@ _CubeAxialIso =
   in iso a b
 
 
-foo :: (OffsetCoordinate t a, Integral a, Bits a) => Iso' (AxialCoordinate a) (t a)
-foo = undefined -- _CubeAxialIso . _CubeOffsetIso
+_AxialOffsetIso :: (OffsetCoordinate t a, Integral a, Bits a) =>
+                  Iso' (AxialCoordinate a) (t a)
+_AxialOffsetIso = iso a b
+  where a = view ((re _CubeAxialIso) . _CubeOffsetIso)
+        b = view ((re _CubeOffsetIso) . _CubeAxialIso)
+
 
 instance OffsetCoordinate OffsetEvenQ t where
   offsetCol = lens (\(OffsetEvenQ (c,r)) -> c) (\(OffsetEvenQ (c,r)) b -> OffsetEvenQ (b, r))
