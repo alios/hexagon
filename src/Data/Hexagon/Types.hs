@@ -20,7 +20,7 @@ module Data.Hexagon.Types
          OffsetOddQ, _OffsetOddQ,
          OffsetOddR, _OffsetOddR
        , -- * Isomorphisms
-         _CubeAxialIso, _AxialOffsetIso
+         _CoordinateIso, _CubeAxialIso, _AxialOffsetIso
        ) where
 
 import           Control.Lens
@@ -35,6 +35,8 @@ type OffsetBase t = (t,t)
 class (Functor t) => HexCoordinate (t :: * -> *) a where
   type CoordinateBase t a :: *
   _Coordinate :: Iso' (CoordinateBase t a) (t a)
+  _CoordinateCubeIso :: (Integral a, Bits a) => Iso' (CubeCoordinate a) (t a)
+
 
 class (Functor t) => OffsetCoordinate (t :: * -> *) a where
   offsetCol :: Lens' (t a) a
@@ -118,6 +120,12 @@ _AxialOffsetIso :: (OffsetCoordinate t a, Integral a, Bits a) =>
 _AxialOffsetIso = iso a b
   where a = view ((re _CubeAxialIso) . _CubeOffsetIso)
         b = view ((re _CubeOffsetIso) . _CubeAxialIso)
+
+_CoordinateIso :: (HexCoordinate s a, HexCoordinate t a, Integral a, Bits a) =>
+                 Iso' (s a) (t a)
+_CoordinateIso = iso a b
+  where a = view (re _CoordinateCubeIso . _CoordinateCubeIso)
+        b = view (re _CoordinateCubeIso . _CoordinateCubeIso)
 
 
 
@@ -210,23 +218,31 @@ instance Functor OffsetOddR where
 instance HexCoordinate CubeCoordinate a where
   type CoordinateBase CubeCoordinate a = CubeBase a
   _Coordinate = _CubeCoordinate
+  _CoordinateCubeIso = iso id id
 
 instance HexCoordinate AxialCoordinate a where
   type CoordinateBase AxialCoordinate a = AxialBase a
   _Coordinate = _AxialCoordinate
+  _CoordinateCubeIso = _CubeAxialIso
 
 instance HexCoordinate OffsetEvenQ a where
   type CoordinateBase OffsetEvenQ a = OffsetBase a
   _Coordinate = _OffsetCoordinate
+  _CoordinateCubeIso = _CubeOffsetIso
 
 instance HexCoordinate OffsetEvenR a where
   type CoordinateBase OffsetEvenR a = OffsetBase a
   _Coordinate = _OffsetCoordinate
+  _CoordinateCubeIso = _CubeOffsetIso
 
 instance HexCoordinate OffsetOddQ a where
   type CoordinateBase OffsetOddQ a = OffsetBase a
   _Coordinate = _OffsetCoordinate
+  _CoordinateCubeIso = _CubeOffsetIso
 
 instance HexCoordinate OffsetOddR a where
   type CoordinateBase OffsetOddR a = OffsetBase a
   _Coordinate = _OffsetCoordinate
+  _CoordinateCubeIso = _CubeOffsetIso
+
+
