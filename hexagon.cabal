@@ -18,7 +18,8 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Data.Hexagon,
-                       Data.Hexagon.Types
+                       Data.Hexagon.Types,
+                       Data.Hexagon.Neighbors
   -- other-modules:       
   other-extensions:    DeriveGeneric,
                        FlexibleContexts,
