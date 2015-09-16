@@ -6,10 +6,10 @@ module Data.Hexagon.Neighbors
        , -- * AxialCoordinate
          axialDirections, axialNeighbor
        , -- * OffsetCoordinate
-         offsetEvenQDirections,
-         offsetOddQDirections,
-         offsetEvenRDirections,
-         offsetOddRDirections
+         offsetEvenQDirections, offsetEvenQNeighbor,
+         offsetOddQDirections, offsetOddQNeighbor,
+         offsetEvenRDirections, offsetEvenRNeighbor,
+         offsetOddRDirections, offsetOddRNeighbor
        ) where
 
 import           Control.Lens
@@ -43,6 +43,7 @@ axialDirections c =
 axialNeighbor :: (Num t) => Direction -> AxialCoordinate t -> AxialCoordinate t
 axialNeighbor d = (flip (!!)) (fromEnum d) . axialDirections
 
+
 offsetEvenQDirections :: (Integral t) => OffsetEvenQ t -> [OffsetEvenQ t]
 offsetEvenQDirections c =
   if (even $ c ^. offsetCol)
@@ -60,6 +61,18 @@ offsetEvenQDirections c =
        , c & offsetCol -~ 1
        , c & offsetRow +~ 1
        ]
+
+offsetEvenQNeighbor :: (Integral t) => Direction -> OffsetEvenQ t -> OffsetEvenQ t
+offsetEvenQNeighbor d = (flip (!!)) (fromEnum d) . offsetEvenQDirections
+
+offsetOddQNeighbor :: (Integral t) => Direction -> OffsetOddQ t -> OffsetOddQ t
+offsetOddQNeighbor d = (flip (!!)) (fromEnum d) . offsetOddQDirections
+
+offsetEvenRNeighbor :: (Integral t) => Direction -> OffsetEvenR t -> OffsetEvenR t
+offsetEvenRNeighbor d = (flip (!!)) (fromEnum d) . offsetEvenRDirections
+
+offsetOddRNeighbor :: (Integral t) => Direction -> OffsetOddR t -> OffsetOddR t
+offsetOddRNeighbor d = (flip (!!)) (fromEnum d) . offsetOddRDirections
 
 
 offsetOddQDirections :: (Integral t) => OffsetOddQ t -> [OffsetOddQ t]
