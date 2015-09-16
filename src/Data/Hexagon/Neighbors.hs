@@ -1,21 +1,18 @@
-{-# LANGUAGE Safe #-}
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE KindSignatures        #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE Safe                  #-}
 
-module Data.Hexagon.Neighbors
-       ( -- * CubeCoordinate
-         cubeDirections, cubeNeighbor
-       , -- * AxialCoordinate
-         axialDirections, axialNeighbor
-       , -- * OffsetCoordinate
-         offsetEvenQDirections, offsetEvenQNeighbor,
-         offsetOddQDirections, offsetOddQNeighbor,
-         offsetEvenRDirections, offsetEvenRNeighbor,
-         offsetOddRDirections, offsetOddRNeighbor
-       ) where
+module Data.Hexagon.Neighbors (HasNeighbors (..)) where
 
 import           Control.Lens
-
 import           Data.Hexagon.Types
 
+
+class (Integral a) => HasNeighbors (t :: * -> *) a where
+  directions :: t a -> [ t a ]
+  neighbor :: Direction -> t a -> t a
+  neighbor d = (flip (!!)) (fromEnum d) . directions
 
 cubeDirections :: Num t => CubeCoordinate t -> [ CubeCoordinate t ]
 cubeDirections c =
@@ -27,9 +24,6 @@ cubeDirections c =
   , c & cubeY -~ 1 & cubeZ +~ 1
   ]
 
-cubeNeighbor :: (Num t) => Direction -> CubeCoordinate t -> CubeCoordinate t
-cubeNeighbor d = (flip (!!)) (fromEnum d) . cubeDirections
-
 axialDirections :: Num t => AxialCoordinate t -> [ AxialCoordinate t ]
 axialDirections c =
   [ c & axialCol +~ 1
@@ -39,9 +33,6 @@ axialDirections c =
   , c & axialCol -~ 1 & axialRow +~ 1
   , c & axialRow +~ 1
   ]
-
-axialNeighbor :: (Num t) => Direction -> AxialCoordinate t -> AxialCoordinate t
-axialNeighbor d = (flip (!!)) (fromEnum d) . axialDirections
 
 
 offsetEvenQDirections :: (Integral t) => OffsetEvenQ t -> [OffsetEvenQ t]
@@ -62,18 +53,6 @@ offsetEvenQDirections c =
        , c & offsetRow +~ 1
        ]
 
-offsetEvenQNeighbor :: (Integral t) => Direction -> OffsetEvenQ t -> OffsetEvenQ t
-offsetEvenQNeighbor d = (flip (!!)) (fromEnum d) . offsetEvenQDirections
-
-offsetOddQNeighbor :: (Integral t) => Direction -> OffsetOddQ t -> OffsetOddQ t
-offsetOddQNeighbor d = (flip (!!)) (fromEnum d) . offsetOddQDirections
-
-offsetEvenRNeighbor :: (Integral t) => Direction -> OffsetEvenR t -> OffsetEvenR t
-offsetEvenRNeighbor d = (flip (!!)) (fromEnum d) . offsetEvenRDirections
-
-offsetOddRNeighbor :: (Integral t) => Direction -> OffsetOddR t -> OffsetOddR t
-offsetOddRNeighbor d = (flip (!!)) (fromEnum d) . offsetOddRDirections
-
 
 offsetOddQDirections :: (Integral t) => OffsetOddQ t -> [OffsetOddQ t]
 offsetOddQDirections c =
@@ -92,9 +71,6 @@ offsetOddQDirections c =
        , c & offsetCol -~ 1 & offsetRow +~ 1
        , c & offsetRow +~ 1
        ]
-
-
-
 
 offsetEvenRDirections :: (Integral t) => OffsetEvenR t -> [OffsetEvenR t]
 offsetEvenRDirections c =
@@ -135,3 +111,20 @@ offsetOddRDirections c =
 
 
 
+instance (Integral a) => HasNeighbors CubeCoordinate a where
+  directions = cubeDirections
+
+instance (Integral a) => HasNeighbors AxialCoordinate a where
+  directions = axialDirections
+
+instance (Integral a) => HasNeighbors OffsetEvenQ a where
+  directions = offsetEvenQDirections
+
+instance (Integral a) => HasNeighbors OffsetOddQ a where
+  directions = offsetOddQDirections
+
+instance (Integral a) => HasNeighbors OffsetEvenR a where
+  directions = offsetEvenRDirections
+
+instance (Integral a) => HasNeighbors OffsetOddR a where
+  directions = offsetOddRDirections

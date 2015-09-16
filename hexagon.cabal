@@ -20,6 +20,8 @@ library
   exposed-modules:     Data.Hexagon,
                        Data.Hexagon.Types,
                        Data.Hexagon.Neighbors
+                       Data.Hexagon.Diagonals
+                       
   -- other-modules:       
   other-extensions:    DeriveGeneric,
                        FlexibleContexts,
