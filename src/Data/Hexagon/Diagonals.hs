@@ -1,6 +1,4 @@
 {-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE KindSignatures        #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE Safe                  #-}
 
 module Data.Hexagon.Diagonals (diagonals, diagonal) where

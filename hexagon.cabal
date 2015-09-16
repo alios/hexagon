@@ -21,6 +21,8 @@ library
                        Data.Hexagon.Types,
                        Data.Hexagon.Neighbors
                        Data.Hexagon.Diagonals
+                       Data.Hexagon.Distance
+                       Data.Hexagon.LineDraw
                        
   -- other-modules:       
   other-extensions:    DeriveGeneric,

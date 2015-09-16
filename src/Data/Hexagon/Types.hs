@@ -47,30 +47,30 @@ class (Functor t) => OffsetCoordinate (t :: * -> *) a where
 
 newtype CubeCoordinate t =
   CubeCoordinate (t, t, t)
-  deriving (Show, Read, Eq, Typeable, GHC.Generic)
+  deriving (Show, Read, Eq, Ord, Bounded, Typeable, GHC.Generic)
 
 newtype AxialCoordinate t =
   AxialCoordinate (t, t)
-  deriving (Show, Read, Eq, Typeable, GHC.Generic)
+  deriving (Show, Read, Eq, Ord, Bounded, Typeable, GHC.Generic)
 
 newtype OffsetEvenQ t =
   OffsetEvenQ (t, t)
-  deriving (Show, Read, Eq, Typeable, GHC.Generic)
+  deriving (Show, Read, Eq, Ord, Bounded, Typeable, GHC.Generic)
 
 newtype OffsetOddQ t =
   OffsetOddQ (t, t)
-  deriving (Show, Read, Eq, Typeable, GHC.Generic)
+  deriving (Show, Read, Eq, Ord, Bounded, Typeable, GHC.Generic)
 
 newtype OffsetEvenR t =
   OffsetEvenR (t, t)
-  deriving (Show, Read, Eq, Typeable, GHC.Generic)
+  deriving (Show, Read, Eq, Ord, Bounded, Typeable, GHC.Generic)
 
 newtype OffsetOddR t =
   OffsetOddR (t, t)
-  deriving (Show, Read, Eq, Typeable, GHC.Generic)
+  deriving (Show, Read, Eq, Ord, Bounded, Typeable, GHC.Generic)
 
 data Direction = D0 | D1 | D2 | D3 | D4 | D5
-  deriving (Show, Read, Eq, Ord, Enum, Typeable, GHC.Generic)
+  deriving (Show, Read, Eq, Ord, Enum, Bounded, Typeable, GHC.Generic)
 
 _CubeCoordinate :: Iso' (CubeCoordinate t) (CoordinateBase CubeCoordinate t)
 _CubeCoordinate = iso (\(CubeCoordinate a) -> a) CubeCoordinate

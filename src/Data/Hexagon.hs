@@ -8,10 +8,15 @@ module Data.Hexagon
          module Data.Hexagon.Neighbors
        , -- ** Diagonals
          module Data.Hexagon.Diagonals
+       , -- ** Distance
+         module Data.Hexagon.Distance
+       , -- ** Line Draw
+         module Data.Hexagon.LineDraw
        ) where
 
 
-
 import           Data.Hexagon.Diagonals
+import           Data.Hexagon.Distance
+import           Data.Hexagon.LineDraw
 import           Data.Hexagon.Neighbors
 import           Data.Hexagon.Types
