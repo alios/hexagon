@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveGeneric         #-}
-{-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE KindSignatures        #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -21,6 +20,8 @@ module Data.Hexagon.Types
          OffsetOddR, _OffsetOddR
        , -- * Isomorphisms
          _CoordinateIso, _CubeAxialIso, _AxialOffsetIso
+       , -- * Directions
+         Direction(..)
        ) where
 
 import           Control.Lens
@@ -67,6 +68,9 @@ newtype OffsetEvenR t =
 newtype OffsetOddR t =
   OffsetOddR (t, t)
   deriving (Show, Read, Eq, Typeable, GHC.Generic)
+
+data Direction = D0 | D1 | D2 | D3 | D4 | D5
+  deriving (Show, Read, Eq, Ord, Enum, Typeable, GHC.Generic)
 
 _CubeCoordinate :: Iso' (CubeCoordinate t) (CoordinateBase CubeCoordinate t)
 _CubeCoordinate = iso (\(CubeCoordinate a) -> a) CubeCoordinate
