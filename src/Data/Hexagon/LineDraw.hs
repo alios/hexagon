@@ -4,19 +4,18 @@
 module Data.Hexagon.LineDraw (lineDraw) where
 
 import Control.Lens
-import Data.Bits
 import Data.Hexagon.Distance
 import Data.Hexagon.Types
 import qualified Data.Sequence as Seq
 import Data.Sequence (Seq)
 
-lineDraw :: (HexCoordinate t a, Integral a, Bits a) => t a -> t a -> Seq (t a)
+lineDraw :: (HexCoordinate t a, Integral a) => t a -> t a -> Seq (t a)
 lineDraw a b =
   fmap (view _CoordinateIso) $ 
   lineDrawCube (a ^. re _CoordinateCubeIso) (b ^. re _CoordinateCubeIso)
 
 
-lineDrawCube :: (Integral t, Bits t) =>
+lineDrawCube :: (Integral t) =>
                CubeCoordinate t -> CubeCoordinate t -> Seq (CubeCoordinate t)
 lineDrawCube a b =
   let n = (fromIntegral $ distance a b) :: Double

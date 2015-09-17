@@ -25,7 +25,6 @@ module Data.Hexagon.Types
        ) where
 
 import           Control.Lens
-import           Data.Bits
 import           Data.Typeable (Typeable)
 import qualified GHC.Generics  as GHC
 
@@ -36,14 +35,14 @@ type OffsetBase t = (t,t)
 class (Functor t) => HexCoordinate (t :: * -> *) a where
   type CoordinateBase t a :: *
   _Coordinate :: Iso' (t a) (CoordinateBase t a)
-  _CoordinateCubeIso :: (Integral a, Bits a) => Iso' (CubeCoordinate a) (t a)
+  _CoordinateCubeIso :: (Integral a) => Iso' (CubeCoordinate a) (t a)
 
 
 class (Functor t) => OffsetCoordinate (t :: * -> *) a where
   offsetCol :: Lens' (t a) a
   offsetRow :: Lens' (t a) a
   _OffsetCoordinate :: Iso' (t a) (OffsetBase a)
-  _CubeOffsetIso :: (Integral a, Bits a) => Iso' (CubeCoordinate a) (t a)
+  _CubeOffsetIso :: (Integral a) => Iso' (CubeCoordinate a) (t a)
 
 newtype CubeCoordinate t =
   CubeCoordinate (t, t, t)
@@ -119,11 +118,11 @@ _CubeAxialIso =
   in iso a b
 
 
-_AxialOffsetIso :: (OffsetCoordinate t a, Integral a, Bits a) =>
+_AxialOffsetIso :: (OffsetCoordinate t a, Integral a) =>
                   Iso' (AxialCoordinate a) (t a)
 _AxialOffsetIso = from _CubeAxialIso . _CubeOffsetIso
 
-_CoordinateIso :: (HexCoordinate s a, HexCoordinate t a, Integral a, Bits a) =>
+_CoordinateIso :: (HexCoordinate s a, HexCoordinate t a, Integral a) =>
                  Iso' (s a) (t a)
 _CoordinateIso = from _CoordinateCubeIso . _CoordinateCubeIso
 
@@ -144,6 +143,9 @@ instance OffsetCoordinate OffsetEvenQ t where
               y = -x-z
           in CubeCoordinate (x, y, z)
     in iso a b
+
+(.&.) :: Integral a => a -> a -> a
+a .&. _ = if odd a then 1 else 0
 
 
 instance OffsetCoordinate OffsetOddQ t where

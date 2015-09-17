@@ -4,15 +4,14 @@
 module Data.Hexagon.Diagonals (diagonals, diagonal) where
 
 import           Control.Lens
-import           Data.Bits
 import           Data.Hexagon.Types
 
 
-diagonals :: (HexCoordinate t a, Integral a, Bits a) => t a -> [ t a ]
+diagonals :: (HexCoordinate t a, Integral a) => t a -> [ t a ]
 diagonals c = fmap (view _CoordinateIso) $
               cubeDiagonals (c ^. re _CoordinateCubeIso)
 
-diagonal :: (HexCoordinate t a, Integral a, Bits a) => Direction -> t a -> t a
+diagonal :: (HexCoordinate t a, Integral a) => Direction -> t a -> t a
 diagonal d = (flip (!!)) (fromEnum d) . diagonals
 
 cubeDiagonals :: Num t => CubeCoordinate t -> [CubeCoordinate t]

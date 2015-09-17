@@ -49,5 +49,6 @@ test-suite spec
                      , containers
                      , hexagon
                      , hspec
+                     , hspec-discover
                      , lens
   default-language:    Haskell2010

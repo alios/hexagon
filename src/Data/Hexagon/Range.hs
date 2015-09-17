@@ -4,10 +4,9 @@
 module Data.Hexagon.Range (range) where
 
 import Control.Lens
-import Data.Bits
 import Data.Hexagon.Types
 
-range :: (HexCoordinate t a, Integral a, Bits a) => a -> t a -> [t a]
+range :: (HexCoordinate t a, Integral a) => a -> t a -> [t a]
 range n c = fmap (view _CoordinateCubeIso) . cubeRange n $
             c ^. re _CoordinateCubeIso
 
