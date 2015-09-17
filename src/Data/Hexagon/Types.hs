@@ -28,9 +28,13 @@ import           Control.Lens
 import           Data.Typeable (Typeable)
 import qualified GHC.Generics  as GHC
 
-type CubeBase   t = (t,t,t)
-type AxialBase  t = (t,t)
-type OffsetBase t = (t,t)
+
+type V2 t = (t,t)
+type V3 t = (t,t,t)
+
+type CubeBase t = V3 t
+type AxialBase  t = V2 t
+type OffsetBase t = V2 t
 
 class (Functor t) => HexCoordinate (t :: * -> *) a where
   type CoordinateBase t a :: *
@@ -127,6 +131,61 @@ _CoordinateIso :: (HexCoordinate s a, HexCoordinate t a, Integral a) =>
 _CoordinateIso = from _CoordinateCubeIso . _CoordinateCubeIso
 
 
+instance Functor CubeCoordinate where
+  fmap f (CubeCoordinate (x,y,z)) = CubeCoordinate (f x, f y, f z)
+
+instance Functor AxialCoordinate where
+  fmap f (AxialCoordinate (q,r)) = AxialCoordinate (f q, f r)
+
+instance Functor OffsetEvenQ where
+  fmap f (OffsetEvenQ (q,r)) = OffsetEvenQ (f q, f r)
+
+instance Functor OffsetEvenR where
+  fmap f (OffsetEvenR (q,r)) = OffsetEvenR (f q, f r)
+
+instance Functor OffsetOddQ where
+  fmap f (OffsetOddQ (q,r)) = OffsetOddQ (f q, f r)
+
+instance Functor OffsetOddR where
+  fmap f (OffsetOddR (q,r)) = OffsetOddR (f q, f r)
+
+instance HexCoordinate CubeCoordinate a where
+  type CoordinateBase CubeCoordinate a = CubeBase a
+  _Coordinate = _CubeCoordinate
+  _CoordinateCubeIso = iso id id
+
+instance HexCoordinate AxialCoordinate a where
+  type CoordinateBase AxialCoordinate a = AxialBase a
+  _Coordinate = _AxialCoordinate
+  _CoordinateCubeIso = _CubeAxialIso
+
+instance HexCoordinate OffsetEvenQ a where
+  type CoordinateBase OffsetEvenQ a = OffsetBase a
+  _Coordinate = _OffsetCoordinate
+  _CoordinateCubeIso = _CubeOffsetIso
+
+instance HexCoordinate OffsetEvenR a where
+  type CoordinateBase OffsetEvenR a = OffsetBase a
+  _Coordinate = _OffsetCoordinate
+  _CoordinateCubeIso = _CubeOffsetIso
+
+instance HexCoordinate OffsetOddQ a where
+  type CoordinateBase OffsetOddQ a = OffsetBase a
+  _Coordinate = _OffsetCoordinate
+  _CoordinateCubeIso = _CubeOffsetIso
+
+instance HexCoordinate OffsetOddR a where
+  type CoordinateBase OffsetOddR a = OffsetBase a
+  _Coordinate = _OffsetCoordinate
+  _CoordinateCubeIso = _CubeOffsetIso
+
+
+-- TODO cleanup crap below :)
+
+(.&.) :: Integral a => a -> a -> a
+a .&. _ = if odd a then 1 else 0
+
+
 
 instance OffsetCoordinate OffsetEvenQ t where
   offsetCol = lens (\(OffsetEvenQ (c,_)) -> c)
@@ -143,9 +202,6 @@ instance OffsetCoordinate OffsetEvenQ t where
               y = -x-z
           in CubeCoordinate (x, y, z)
     in iso a b
-
-(.&.) :: Integral a => a -> a -> a
-a .&. _ = if odd a then 1 else 0
 
 
 instance OffsetCoordinate OffsetOddQ t where
@@ -198,53 +254,7 @@ instance OffsetCoordinate OffsetOddR t where
     in iso a b
 
 
-instance Functor CubeCoordinate where
-  fmap f (CubeCoordinate (x,y,z)) = CubeCoordinate (f x, f y, f z)
-
-instance Functor AxialCoordinate where
-  fmap f (AxialCoordinate (q,r)) = AxialCoordinate (f q, f r)
-
-instance Functor OffsetEvenQ where
-  fmap f (OffsetEvenQ (q,r)) = OffsetEvenQ (f q, f r)
-
-instance Functor OffsetEvenR where
-  fmap f (OffsetEvenR (q,r)) = OffsetEvenR (f q, f r)
-
-instance Functor OffsetOddQ where
-  fmap f (OffsetOddQ (q,r)) = OffsetOddQ (f q, f r)
-
-instance Functor OffsetOddR where
-  fmap f (OffsetOddR (q,r)) = OffsetOddR (f q, f r)
 
 
-instance HexCoordinate CubeCoordinate a where
-  type CoordinateBase CubeCoordinate a = CubeBase a
-  _Coordinate = _CubeCoordinate
-  _CoordinateCubeIso = iso id id
-
-instance HexCoordinate AxialCoordinate a where
-  type CoordinateBase AxialCoordinate a = AxialBase a
-  _Coordinate = _AxialCoordinate
-  _CoordinateCubeIso = _CubeAxialIso
-
-instance HexCoordinate OffsetEvenQ a where
-  type CoordinateBase OffsetEvenQ a = OffsetBase a
-  _Coordinate = _OffsetCoordinate
-  _CoordinateCubeIso = _CubeOffsetIso
-
-instance HexCoordinate OffsetEvenR a where
-  type CoordinateBase OffsetEvenR a = OffsetBase a
-  _Coordinate = _OffsetCoordinate
-  _CoordinateCubeIso = _CubeOffsetIso
-
-instance HexCoordinate OffsetOddQ a where
-  type CoordinateBase OffsetOddQ a = OffsetBase a
-  _Coordinate = _OffsetCoordinate
-  _CoordinateCubeIso = _CubeOffsetIso
-
-instance HexCoordinate OffsetOddR a where
-  type CoordinateBase OffsetOddR a = OffsetBase a
-  _Coordinate = _OffsetCoordinate
-  _CoordinateCubeIso = _CubeOffsetIso
 
 
