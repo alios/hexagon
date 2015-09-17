@@ -15,7 +15,7 @@ distance a b =
 cubeDistance :: (Integral a, Bits a) => CubeCoordinate a -> CubeCoordinate a -> a
 cubeDistance a b =
   let dx = abs $ a ^. cubeX - b ^. cubeX
-      dy = abs $ a ^. cubeX - b ^. cubeY
-      dz = abs $ a ^. cubeX - b ^. cubeZ
+      dy = abs $ a ^. cubeY - b ^. cubeY
+      dz = abs $ a ^. cubeZ - b ^. cubeZ
   in max dx $ max dy dz
 

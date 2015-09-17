@@ -2,11 +2,11 @@
 
 module Data.Hexagon.TypesSpec where
 
-import SpecHelper
-import Control.Lens
+import           Control.Lens
+import           SpecHelper
 
 
-  
+
 spec :: Spec
 spec = do
   describe "Data.Hexagon.Types" $ do
@@ -27,12 +27,12 @@ spec = do
     context "OffsetEvenQ" $ do
       it "_OffsetCoordinate is isomproph" $ property $ prop_offset_eq_iso
       it "_AxialOffsetIso is isomorph" $ property $ prop_offsetEvenQ_axial_iso
-      it "_AxialOffsetIso is isomorph" $ property $ prop_offsetEvenQ_cube_iso
+      it "_CubeOffsetIso is isomorph" $ property $ prop_offsetEvenQ_cube_iso
 
     context "OffsetEvenR" $ do
       it "_OffsetCoordinate is isomproph" $ property $ prop_offset_er_iso
       it "_AxialOffsetIso is isomorph" $ property $ prop_offsetEvenR_axial_iso
-      it "_AxialOffsetIso is isomorph" $ property $ prop_offsetEvenR_cube_iso
+      it "_CubeOffsetIso is isomorph" $ property $ prop_offsetEvenR_cube_iso
 
 
 prop_offset_eq_iso :: OffsetEvenQ Int -> Bool
