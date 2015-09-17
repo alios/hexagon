@@ -23,6 +23,7 @@ library
                        Data.Hexagon.Diagonals
                        Data.Hexagon.Distance
                        Data.Hexagon.LineDraw
+                       Data.Hexagon.Range
                        
   -- other-modules:       
   other-extensions:    DeriveGeneric,

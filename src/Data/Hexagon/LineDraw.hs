@@ -25,14 +25,6 @@ lineDrawCube a b =
   in fmap cubeRound . Seq.fromList $
      [cubeLerp a' b' $ 1 / n * i | i <- [0..n]]
 
-
-c1,c2 :: AxialCoordinate Int
-c1 = _Coordinate # (1, 1)
-c2 = _Coordinate # (7, 2)
-
-foo = lineDraw c1 c2
-
-
 cubeLerp :: Num t => CubeCoordinate t -> CubeCoordinate t -> t -> CubeCoordinate t
 cubeLerp a b t =
   let x' = (a ^. cubeX + (b ^. cubeX - a ^. cubeX) * t)
