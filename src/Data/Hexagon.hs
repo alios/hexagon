@@ -2,18 +2,19 @@
 
 module Data.Hexagon
        ( -- * Data Types
-         module Data.Hexagon.Types
+         HexCoordinate (..), CubeCoordinate, AxialCoordinate,
+         OffsetEvenQ, OffsetEvenR, OffsetOddQ, OffsetOddR
        , -- * Algorithms
          -- ** Neighbors
-         module Data.Hexagon.Neighbors
+         HasNeighbors (..)
        , -- ** Diagonals
-         module Data.Hexagon.Diagonals
+         diagonals
        , -- ** Distance
-         module Data.Hexagon.Distance
+         distance
        , -- ** Line Draw
-         module Data.Hexagon.LineDraw
+         lineDraw
        , -- ** Range
-         module Data.Hexagon.Range
+         range
        ) where
 
 

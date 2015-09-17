@@ -2,13 +2,15 @@ module SpecHelper
        ( module Test.Hspec
        , module Test.QuickCheck
        , module Data.Hexagon
+       , module Data.Hexagon.Types
        ) where
 
-import Test.Hspec
-import Test.QuickCheck
-import Data.Hexagon
+import           Data.Hexagon
+import           Data.Hexagon.Types
+import           Test.Hspec
+import           Test.QuickCheck
 
-import Control.Lens
+import           Control.Lens
 
 
 instance (Num a, Arbitrary a) => Arbitrary (CubeCoordinate a) where
@@ -19,16 +21,16 @@ instance (Num a, Arbitrary a) => Arbitrary (CubeCoordinate a) where
     return $ _CubeCoordinate # (x,y,z)
 
 instance (Arbitrary a) => Arbitrary (AxialCoordinate a) where
-  arbitrary = fmap (review _AxialCoordinate) arbitrary 
+  arbitrary = fmap (review _AxialCoordinate) arbitrary
 
 instance (Arbitrary a) => Arbitrary (OffsetEvenQ a) where
-  arbitrary = fmap (review _OffsetEvenQ) arbitrary 
+  arbitrary = fmap (review _OffsetEvenQ) arbitrary
 
 instance (Arbitrary a) => Arbitrary (OffsetEvenR a) where
-  arbitrary = fmap (review _OffsetEvenR) arbitrary 
+  arbitrary = fmap (review _OffsetEvenR) arbitrary
 
 instance (Arbitrary a) => Arbitrary (OffsetOddQ a) where
-  arbitrary = fmap (review _OffsetOddQ) arbitrary 
+  arbitrary = fmap (review _OffsetOddQ) arbitrary
 
 instance (Arbitrary a) => Arbitrary (OffsetOddR a) where
-  arbitrary = fmap (review _OffsetOddR) arbitrary 
+  arbitrary = fmap (review _OffsetOddR) arbitrary
