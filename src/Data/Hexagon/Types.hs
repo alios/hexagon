@@ -13,7 +13,7 @@ module Data.Hexagon.Types
        , -- ** AxialCoordinates
          AxialCoordinate, AxialBase, _AxialCoordinate, axialCol, axialRow
        , -- ** OffsetCoordinates
-         OffsetCoordinate (..), OffsetBase,
+         OffsetCoordinate (..), OffsetBase, V2, V3,
          OffsetEvenQ, _OffsetEvenQ,
          OffsetEvenR, _OffsetEvenR,
          OffsetOddQ, _OffsetOddQ,
