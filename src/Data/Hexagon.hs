@@ -3,7 +3,8 @@
 module Data.Hexagon
        ( -- * Data Types
          HexCoordinate (..), CubeCoordinate, AxialCoordinate,
-         OffsetEvenQ, OffsetEvenR, OffsetOddQ, OffsetOddR
+         OffsetEvenQ, OffsetEvenR, OffsetOddQ, OffsetOddR,
+         Direction (..)
        , -- * Algorithms
          -- ** Neighbors
          HasNeighbors (..)

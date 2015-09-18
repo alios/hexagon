@@ -9,8 +9,11 @@ import           Control.Lens
 import           Data.Hexagon.Types
 
 
+-- | a 'HexCoordinate' which has neighbors.
 class (Integral a) => HasNeighbors (t :: * -> *) a where
+  -- | get all 6 neighbors of a 'HexCoordinate'
   directions :: t a -> [ t a ]
+  -- | given a 'Direction' return that neighbor
   neighbor :: Direction -> t a -> t a
   neighbor d = (flip (!!)) (fromEnum d) . directions
 
