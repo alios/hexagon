@@ -77,17 +77,17 @@ offsetEvenRDirections c =
   if (even $ c ^. offsetRow)
   then [ c & offsetCol +~ 1
        , c & offsetCol +~ 1 & offsetRow -~ 1
-       , c & offsetRow -~ 1
+       , c &                  offsetRow -~ 1
        , c & offsetCol -~ 1
-       , c & offsetRow +~ 1
+       , c &                  offsetRow +~ 1
        , c & offsetCol +~ 1 & offsetRow +~ 1
        ]
-  else [ c & offsetCol +~ 1 & offsetRow +~ 1
-       , c & offsetCol +~ 1 & offsetRow +~ 1
-       , c & offsetCol +~ 1 & offsetRow +~ 1
-       , c & offsetCol +~ 1 & offsetRow +~ 1
-       , c & offsetCol +~ 1 & offsetRow +~ 1
-       , c & offsetCol +~ 1 & offsetRow +~ 1
+  else [ c & offsetCol +~ 1
+       , c &                  offsetRow -~ 1
+       , c & offsetCol -~ 1 & offsetRow -~ 1
+       , c & offsetCol -~ 1
+       , c & offsetCol -~ 1 & offsetRow +~ 1
+       , c &                  offsetRow +~ 1
        ]
 
 
