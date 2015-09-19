@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE Safe                  #-}
+{-# LANGUAGE Trustworthy                  #-}
 
 module Data.Hexagon.Diagonals (diagonals, diagonal) where
 

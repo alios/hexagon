@@ -2,7 +2,7 @@
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE KindSignatures        #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE Safe                  #-}
+{-# LANGUAGE Trustworthy           #-}
 {-# LANGUAGE TypeFamilies          #-}
 
 module Data.Hexagon.Types
