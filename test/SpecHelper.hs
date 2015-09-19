@@ -37,3 +37,6 @@ instance (Arbitrary a) => Arbitrary (OffsetOddQ a) where
 
 instance (Arbitrary a) => Arbitrary (OffsetOddR a) where
   arbitrary = fmap (review _OffsetOddR) arbitrary
+
+instance Arbitrary Direction where
+  arbitrary = elements [minBound .. maxBound]

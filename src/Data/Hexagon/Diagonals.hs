@@ -1,13 +1,13 @@
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE Trustworthy                  #-}
 
-module Data.Hexagon.Diagonals (diagonals, diagonal) where
+module Data.Hexagon.Diagonals (diagonals, diagonal, isDiagonal) where
 
+import Control.Lens.Getter
 import Control.Lens.Operators
 import Control.Lens.Review
-import Control.Lens.Getter
 import Data.Hexagon.Types
-
+import Data.List
 
 diagonals :: (HexCoordinate t a, Integral a) => t a -> [ t a ]
 diagonals c = fmap (view _CoordinateIso) $
@@ -15,6 +15,12 @@ diagonals c = fmap (view _CoordinateIso) $
 
 diagonal :: (HexCoordinate t a, Integral a) => Direction -> t a -> t a
 diagonal d = (flip (!!)) (fromEnum d) . diagonals
+
+isDiagonal :: (Eq (t a), HexCoordinate t a, Integral a) =>
+             t a -> t a -> Maybe Direction
+isDiagonal a = fmap toEnum . elemIndex a . diagonals
+
+
 
 cubeDiagonals :: Num t => CubeCoordinate t -> [CubeCoordinate t]
 cubeDiagonals c =

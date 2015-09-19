@@ -20,6 +20,13 @@ spec = do
       it "OffsetOddQ" $ property $ prop_neighbor_dist_oddq
       it "OffsetEvenR" $ property $ prop_neighbor_dist_evenr
       it "OffsetOddR" $ property $ prop_neighbor_dist_oddr
+    context "neighbor of direction ismorph isNeighbor dir" $ do
+      it "CubeCoordinate" $ property $ prop_neighbor_dir_cube
+      it "AxialCoordinate" $ property $ prop_neighbor_dir_axial
+      it "OffsetEvenQ" $ property $ prop_neighbor_dir_evenq
+      it "OffsetOddQ" $ property $ prop_neighbor_dir_oddq
+      it "OffsetEvenR" $ property $ prop_neighbor_dir_evenr
+      it "OffsetOddR" $ property $ prop_neighbor_dir_oddr
     context "every neighbor is within range 1" $ do
       it "CubeCoordinate" $ property $ prop_neighbor_range_cube
       it "AxialCoordinate" $ property $ prop_neighbor_range_axial
@@ -50,6 +57,10 @@ prop_neighbor_dist  :: (HexCoordinate t a, HasNeighbors t a, Integral a) =>
                       t a -> Bool
 prop_neighbor_dist c = and . fmap ((==) 1 . distance c) . directions $ c
 
+prop_neighbor_dir  :: ( Eq (t a), HexCoordinate t a
+                     , HasNeighbors t a, Integral a ) =>
+                     Direction -> t a -> Bool
+prop_neighbor_dir d c = (neighbor d c `isNeighbor` c) == (Just d)
 
 prop_neighbor_range  ::
   (Eq (t a), HexCoordinate t a, HasNeighbors t a, Integral a) =>
@@ -76,12 +87,14 @@ prop_neighbor_lineDraw c = and $ fmap (ld c) . directions $ c
 
 
 
-
 prop_neighbor_count_cube :: CubeCoordinate Int -> Bool
 prop_neighbor_count_cube = prop_neighbor_count
 
 prop_neighbor_dist_cube :: CubeCoordinate Int -> Bool
 prop_neighbor_dist_cube = prop_neighbor_count
+
+prop_neighbor_dir_cube :: Direction -> CubeCoordinate Int -> Bool
+prop_neighbor_dir_cube = prop_neighbor_dir
 
 prop_neighbor_range_cube :: CubeCoordinate Int -> Bool
 prop_neighbor_range_cube = prop_neighbor_range
@@ -99,6 +112,9 @@ prop_neighbor_count_axial = prop_neighbor_count
 prop_neighbor_dist_axial :: AxialCoordinate Int -> Bool
 prop_neighbor_dist_axial = prop_neighbor_count
 
+prop_neighbor_dir_axial :: Direction -> AxialCoordinate Int -> Bool
+prop_neighbor_dir_axial = prop_neighbor_dir
+
 prop_neighbor_range_axial :: AxialCoordinate Int -> Bool
 prop_neighbor_range_axial = prop_neighbor_range
 
@@ -115,6 +131,9 @@ prop_neighbor_count_evenq = prop_neighbor_count
 prop_neighbor_dist_evenq :: OffsetEvenQ Int -> Bool
 prop_neighbor_dist_evenq = prop_neighbor_count
 
+prop_neighbor_dir_evenq :: Direction -> OffsetEvenQ Int -> Bool
+prop_neighbor_dir_evenq = prop_neighbor_dir
+
 prop_neighbor_range_evenq :: OffsetEvenQ Int -> Bool
 prop_neighbor_range_evenq = prop_neighbor_range
 
@@ -129,6 +148,9 @@ prop_neighbor_count_oddq = prop_neighbor_count
 
 prop_neighbor_dist_oddq :: OffsetOddQ Int -> Bool
 prop_neighbor_dist_oddq = prop_neighbor_count
+
+prop_neighbor_dir_oddq :: Direction -> OffsetOddQ Int -> Bool
+prop_neighbor_dir_oddq = prop_neighbor_dir
 
 prop_neighbor_range_oddq :: OffsetOddQ Int -> Bool
 prop_neighbor_range_oddq = prop_neighbor_range
@@ -146,6 +168,9 @@ prop_neighbor_count_evenr = prop_neighbor_count
 prop_neighbor_dist_evenr :: OffsetEvenR Int -> Bool
 prop_neighbor_dist_evenr = prop_neighbor_count
 
+prop_neighbor_dir_evenr :: Direction -> OffsetEvenR Int -> Bool
+prop_neighbor_dir_evenr = prop_neighbor_dir
+
 prop_neighbor_range_evenr :: OffsetEvenR Int -> Bool
 prop_neighbor_range_evenr = prop_neighbor_range
 
@@ -160,6 +185,9 @@ prop_neighbor_count_oddr = prop_neighbor_count
 
 prop_neighbor_dist_oddr :: OffsetOddR Int -> Bool
 prop_neighbor_dist_oddr = prop_neighbor_count
+
+prop_neighbor_dir_oddr :: Direction -> OffsetOddR Int -> Bool
+prop_neighbor_dir_oddr = prop_neighbor_dir
 
 prop_neighbor_range_oddr :: OffsetOddR Int -> Bool
 prop_neighbor_range_oddr = prop_neighbor_range

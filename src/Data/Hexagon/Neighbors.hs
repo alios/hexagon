@@ -3,19 +3,28 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE Trustworthy           #-}
 
-module Data.Hexagon.Neighbors (HasNeighbors (..)) where
+module Data.Hexagon.Neighbors (HasNeighbors (..), neighbor, isNeighbor) where
 
 import           Control.Lens.Operators
 import           Data.Hexagon.Types
+import           Data.List
 
 
 -- | a 'HexCoordinate' which has neighbors.
 class (Integral a) => HasNeighbors (t :: * -> *) a where
   -- | get all 6 neighbors of a 'HexCoordinate'
   directions :: t a -> [ t a ]
-  -- | given a 'Direction' return that neighbor
-  neighbor :: Direction -> t a -> t a
-  neighbor d = (flip (!!)) (fromEnum d) . directions
+
+
+-- | given a 'Direction' return that neighbor
+neighbor :: (HasNeighbors t a) => Direction -> t a -> t a
+neighbor d = (flip (!!)) (fromEnum d) . directions
+
+
+isNeighbor :: (HasNeighbors t a, Eq (t a)) =>  t a -> t a -> Maybe Direction
+isNeighbor a = fmap toEnum . elemIndex a . directions
+
+
 
 cubeDirections :: Num t => CubeCoordinate t -> [ CubeCoordinate t ]
 cubeDirections c =

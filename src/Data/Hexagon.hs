@@ -7,9 +7,9 @@ module Data.Hexagon
          Direction (..)
        , -- * Algorithms
          -- ** Neighbors
-         HasNeighbors (..)
+         HasNeighbors (..), neighbor, isNeighbor
        , -- ** Diagonals
-         diagonals
+         diagonals, diagonal, isDiagonal
        , -- ** Distance
          distance
        , -- ** Line Draw
