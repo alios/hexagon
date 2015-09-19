@@ -5,7 +5,7 @@
 
 module Data.Hexagon.Neighbors (HasNeighbors (..)) where
 
-import           Control.Lens
+import           Control.Lens.Operators
 import           Data.Hexagon.Types
 
 

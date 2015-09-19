@@ -3,11 +3,12 @@
 
 module Data.Hexagon.LineDraw (lineDraw) where
 
-import Control.Lens
-import Data.Hexagon.Distance
-import Data.Hexagon.Types
+import           Control.Lens.Review
+import           Control.Lens.Getter
+import           Data.Hexagon.Distance
+import           Data.Hexagon.Types
 import qualified Data.Sequence as Seq
-import Data.Sequence (Seq)
+import           Data.Sequence (Seq)
 
 lineDraw :: (HexCoordinate t a, Integral a) => t a -> t a -> Seq (t a)
 lineDraw a b =

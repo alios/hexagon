@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -fno-warn-orphans #-}
+
 module SpecHelper
        ( module Test.Hspec
        , module Test.QuickCheck
@@ -10,7 +12,8 @@ import           Data.Hexagon.Types
 import           Test.Hspec
 import           Test.QuickCheck
 
-import           Control.Lens
+import           Control.Lens.Operators
+import           Control.Lens.Review
 
 
 instance (Num a, Arbitrary a) => Arbitrary (CubeCoordinate a) where

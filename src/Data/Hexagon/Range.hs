@@ -3,7 +3,9 @@
 
 module Data.Hexagon.Range (range) where
 
-import Control.Lens
+import Control.Lens.Review
+import Control.Lens.Getter
+import Control.Lens.Operators
 import Data.Hexagon.Types
 
 range :: (HexCoordinate t a, Integral a) => a -> t a -> [t a]

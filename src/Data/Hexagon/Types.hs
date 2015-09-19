@@ -24,9 +24,11 @@ module Data.Hexagon.Types
          Direction(..)
        ) where
 
-import           Control.Lens
-import           Data.Typeable (Typeable)
-import qualified GHC.Generics  as GHC
+import           Control.Lens.Iso
+import           Control.Lens.Lens
+import           Control.Lens.Operators
+import           Data.Typeable          (Typeable)
+import qualified GHC.Generics           as GHC
 
 
 type V2 t = (t,t)

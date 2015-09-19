@@ -3,8 +3,10 @@
 
 module Data.Hexagon.Diagonals (diagonals, diagonal) where
 
-import           Control.Lens
-import           Data.Hexagon.Types
+import Control.Lens.Operators
+import Control.Lens.Review
+import Control.Lens.Getter
+import Data.Hexagon.Types
 
 
 diagonals :: (HexCoordinate t a, Integral a) => t a -> [ t a ]

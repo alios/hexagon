@@ -2,7 +2,8 @@
 
 module Data.Hexagon.TypesSpec where
 
-import           Control.Lens
+import           Control.Lens.Getter
+import           Control.Lens.Iso
 import           SpecHelper
 
 

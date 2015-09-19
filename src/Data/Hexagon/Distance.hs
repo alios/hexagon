@@ -5,7 +5,8 @@
 
 module Data.Hexagon.Distance (distance) where
 
-import           Control.Lens
+import           Control.Lens.Operators
+import           Control.Lens.Review
 import           Data.Hexagon.Types
 
 distance :: (HexCoordinate t a, Integral a) => t a -> t a -> a
